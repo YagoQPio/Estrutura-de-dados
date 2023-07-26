@@ -21,3 +21,39 @@ int main(){
         printf("vetor[%d] =  %d\n", i, vetor[i]);
     }
 }
+
+///////////////////////////////////////////Inversor de vetor///////////////////////////////
+#include <stdio.h>
+
+// Progama de inversor de elementos do vetor
+// Declarar Variaveis
+
+int vetorOriginal[10];
+int vetorInvertido[10];
+int i = 0;
+
+//Funcao principal da execucao do progama
+int main(){
+    //limpeza da memoria
+    for (i = 0; i < 10; i ++){
+        vetorOriginal[i] = 0;
+        vetorInvertido[i] =0;
+    }
+    //preenchimento do vetor
+    for (i = 0; i < 10; i ++){
+        printf("Digite o valor da posicao %d do vetor: ",i);
+        scanf("%d", &vetorOriginal[i]);
+    }
+    //Inversao do vetor
+    for (i = 9; i>= 0; i--){
+        vetorInvertido[9-i] = vetorOriginal[i];
+    }
+    //Impressao dos vetores
+    for (i = 0; i < 10; i++){
+        printf("vetorOriginal[%d] = %d\n", i , vetorOriginal[i]);
+    }
+    printf("\n");
+    for (i = 0; i < 10; i++){
+        printf("vetorInvertiso[%d] = %d\n", i , vetorInvertido[i]);
+    }
+}
