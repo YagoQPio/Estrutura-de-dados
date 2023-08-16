@@ -1,1 +1,88 @@
+#include <stdio.h>
+#include <stdlib.h>
+//Declaracao da estrutura do NO
 
+struct no{
+    int numero;
+    struct no *proximo;
+    };
+
+//Declaracao de variavel
+struct no *cabeca = NULL;
+
+//Funcao que insere o no na lista
+void inserir(int numero){
+    //alocacao do espaço de memoria
+    struct no *novoNo = (struct no *) malloc(sizeof(struct no));
+    novoNo -> numero = numero;
+    novoNo -> proximo = NULL;
+
+    if (cabeca == NULL){
+        //caso facil,lista vazia
+        cabeca = novoNo;
+    }else{
+        //Caso dificil, a lista nao esta vazia
+        struct no *ponteiro = cabeca;
+
+        while (ponteiro -> proximo != NULL){
+            ponteiro = ponteiro -> proximo;
+        }
+            ponteiro -> proximo = novoNo;
+        }
+}
+
+//Funcao que imprime os no da lista
+void imprimir(){
+    printf("=======================\n");
+
+    struct no *ponteiro = cabeca;
+    while (ponteiro != NULL){
+        printf("%d\n", ponteiro -> numero);
+        ponteiro = ponteiro -> proximo;
+    }
+}
+//Funcao que exclui o no da lista
+void remover(int numero){
+    if(cabeca != NULL)
+    if (cabeca -> numero == numero){
+        //Caso facil
+        struct  no *ponteiroExcluir = cabeca;
+        cabeca = cabeca -> proximo;
+        free (ponteiroExcluir);
+    }else{
+        //Caso dificil
+        struct no *ponteiroAnterior = cabeca;
+
+        while ((ponteiroAnterior -> proximo != NULL)&&(ponteiroAnterior -> proximo -> numero != numero)){
+            ponteiroAnterior = ponteiroAnterior -> proximo;
+        }
+        if (ponteiroAnterior -> proximo != NULL){
+            struct no *ponteiroExcluir = ponteiroAnterior -> proximo;
+            ponteiroAnterior -> proximo = ponteiroExcluir -> proximo;
+            free(ponteiroExcluir);
+        }
+    }
+}
+
+
+
+
+//funcao principal de execucao
+int main(int argc, char * argv[]){
+    inserir(1);
+    inserir(2);
+    inserir(3);
+    inserir(4);
+    inserir(5);
+    inserir(6);
+    inserir(7);
+
+    imprimir();
+
+    remover(100);
+    remover(1);
+    remover(2);
+    remover(3);
+
+    imprimir();
+}
