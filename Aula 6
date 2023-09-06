@@ -1,1 +1,119 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+//progama que implementa uma mariz esparsa
+
+//Declaracao constantes da classe
+
+const int MODULO = 3;
+//declaracao de estrutura
+struct no{
+    int numero;
+    struct no *proximo;
+};
+
+struct diretor{
+    int resto;
+    struct no *proximoNo;
+    struct diretor *proximoDiretor;
+};
+//declaracao de variaves
+struct diretor *cabeca=NULL;
+
+//funcao que procura um diretor certo
+struct diretor * procurarDiretor (int resto){
+    struct diretor *ponteiro = cabeca;
+
+    while ((ponteiro != NULL) && (ponteiro -> resto != resto)){
+        ponteiro = ponteiro -> proximoDiretor;
+    }
+
+    if(ponteiro == NULL){
+        //criar um diretor novo
+        ponteiro = (struct diretor *) malloc(sizeof(struct diretor));
+        ponteiro -> resto = resto;
+        ponteiro -> proximoNo = NULL;
+        ponteiro -> proximoDiretor = cabeca;
+
+        cabeca = ponteiro;
+    }
+
+    return ponteiro;
+}
+//Funcao que insere um no na matriz esparsa
+void inserir (int numero){
+    struct diretor *ponteiroDiretor = procurarDiretor(numero % MODULO);
+
+    struct no *novoNo = (struct no *) malloc(sizeof(struct no));
+
+    novoNo -> numero = numero;
+    novoNo -> proximoNo = ponteiroDiretor -> proximoNo;
+
+    ponteiroDiretor->proximoNo = novoNo;
+}
+
+//Funcao que imprime
+void imprimir(){
+    struct diretor *ponteiroDiretor = cabeca;
+
+    while(ponteiroDiretor != NULL){
+        struct no *ponteiroNO = ponteiroDiretor -> proximoNO;
+
+        printf("%d:\t", ponteiroDiretor -> resto);
+        while (ponteiroNO != NULL){
+            printf("%d\t", ponteiroNO -> nuemro);
+            ponteiroNO = ponteiroNO -> proximo;
+        }
+        printf("\n")
+        ponteiroDiretor = ponteiroDiretor -> proximoDiretor;
+    }
+}
+void remover(int numero){
+    struct diretor *ponteiroDiretor =  procurarDiretor(numero % MODULO);
+
+    if(ponteiroDiretor -> proximoNo != NULL)
+    if (ponteiroDiretor -> ProximoNo -> numero == numero){
+        //Caso facil
+        struct  no *ponteiroExcluir = ponteiroDiretor -> proximoNo;
+        ponteiroDiretor -> proximoNo = ponteiroDiretor -> proximoNo -> proximoNo;
+        free (ponteiroExcluir);
+    }else{
+        //Caso dificil
+        struct no *ponteiroAnterior = ponteiroDiretor ->proximoNo;
+
+        while ((ponteiroAnterior -> proximoNo != NULL)&&(ponteiroAnterior -> proximoNo -> numero != numero)){
+            ponteiroAnterior = ponteiroAnterior -> proximoNo;
+        }
+        if (ponteiroAnterior -> proximoNo != NULL){
+            struct no *ponteiroExcluir = ponteiroAnterior -> proximoNo;
+            ponteiroAnterior -> proximoNo = ponteiroExcluir -> proximoNo;
+            free(ponteiroExcluir);
+        }
+    }
+}
+
+
+
+
+
+//Funcao principal de execucao do progama
+int main(){
+    int i = 0;
+    time_t t;
+    int numero = 0;
+
+    srand ((unsigned)time(&t));
+
+    for (i = 0; i < 10; i++){
+        inserir(rand());
+    }
+    imprimir();
+
+    printf("Digite um numero para excluir: ");
+    scanf("%d", %numero);
+
+    remover(numero);
+
+    imprimir()
+}
 
